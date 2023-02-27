@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RibController {
@@ -22,16 +23,14 @@ public class RibController {
     RibService ribService;
 
 
-    @GetMapping("/rib")
-    public List<Rib> getBin() {
-        return ribRepository.findAll();
-
-
+    @GetMapping("/rib/{id}")
+    public List<Rib> getBin(@PathVariable Integer id) {
+        return ribRepository.findRibById(id);
     }
 
-    @GetMapping("/rib/{format}")
-    public String generateRIB(@PathVariable String format) throws JRException, FileNotFoundException {
-        return ribService.exportReport(format);
+    @GetMapping("/rib/{id}/{format}")
+    public String generateRIB(@PathVariable Integer id,@PathVariable String format) throws JRException, FileNotFoundException {
+        return ribService.exportReport(id, format);
 
     }
 }
